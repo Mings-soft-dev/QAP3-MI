@@ -139,13 +139,3 @@ document.writeln("<th colspan='2' class='centertext'>Turning Lawns into Landscap
 document.writeln("</tr>");
 
 document.writeln("</table>");
-
-
-/*
-document.writeIn("<th>Lawn Care Service Invoice</th>");
-
-document.writeIn("<tr>Customer Name: " + CusName + "</tr>");
-document.writeIn("<tr>Phone Number: " + PhoneNum + "</tr>");
-document.writeIn("<tr>Street Address: " + StAddr + "</tr>");
-document.writeIn("<tr>City: " + City + "</tr>");
-*/
