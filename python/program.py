@@ -15,7 +15,22 @@ LUXURYTAX = 0.016
 FINANCINGFEE = 39.99
 
 # Define program functions.
+def blank_checker(input_string):
+    if input_string == "":
+        print("Field cannot be blank.")
+    else:
+        return True
 
+def increase_month(month, year):
+        month += 1
+        if month > 12:
+            month = 1
+            year += 1
+        else:
+            return month, year
+
+def format_currency(value):
+        return "${:,.2f}".format(value)
 
 
 # Main program starts here.
@@ -27,27 +42,31 @@ while True:
     print("Harry's Used Car Sales Invoice Generator")
     print()
 
-    FName = input("Enter the buyer's first name(or End, to exit program): ").title()
-    if FName == 'End':
-        break
-    elif FName == '':
-        print("First name cannot be blank.")
-        
-    LName = input("Enter the buyer's last name: ").title()
-    if LName == '':
-        print("Last name cannot be blank.")
-
-    PhoneNum = input("Enter the buyer's phone number (xxx-xxx-xxxx): ")
-    if PhoneNum == '':
-        print("Phone number cannot be blank.")
-    elif len(PhoneNum) != 10:
-        print("Phone number must be 10 digits long.")
-
-    PlateNum = input("Enter the car's plate number (XXX123): ").upper()
-    if PlateNum == '':
-        print("Plate number cannot be blank.")
-    elif len(PlateNum) != 6:
-        print("Plate number must be 6 characters long.")
+    while True:
+        FName = input("Enter the buyer's first name(or End, to exit program): ").title()
+        if FName == 'End':
+            exit()
+        elif blank_checker(FName) == True:
+            break
+   
+    while True:
+        LName = input("Enter the buyer's last name: ").title()
+        if blank_checker(LName) == True:
+            break
+    
+    while True:
+        PhoneNum = input("Enter the buyer's phone number (xxx-xxx-xxxx): ")
+        if len(PhoneNum) != 10:
+            print("Phone number must be 10 digits long.")
+        elif blank_checker(PhoneNum) == True:
+            break
+    
+    while True:
+        PlateNum = input("Enter the car's plate number (XXX123): ").upper()
+        if len(PlateNum) != 6:
+            print("Plate number must be 6 characters long.")
+        elif blank_checker(PlateNum) == True:
+            break
 
     CarMake = input("Enter the car's make: ").title()
     
@@ -55,32 +74,35 @@ while True:
     
     CarYear = input("Enter the car's year (YYYY): ")
     
-    SalePrice = float(input("Enter the sale price of the car: "))
-    if SalePrice > 50000:
-        print("Sale price cannot exceed $50,000.00 for used cars.")
+    while True:
+        SalePrice = float(input("Enter the sale price of the car: "))
+        if SalePrice > 50000:
+            print("Sale price cannot exceed $50,000.00 for used cars.")
+        else:
+            break
 
-    TradeInValue = float(input("Enter the trade-in value of the buyer's old car: "))
-    if TradeInValue > SalePrice:
-        print("Trade-in value cannot exceed the sale price of the car.")
+    while True:
+        TradeInValue = float(input("Enter the trade-in value of the buyer's old car: "))
+        if TradeInValue > SalePrice:
+            print("Trade-in value cannot exceed the sale price of the car.")
+        else:
+            break
     
-    SalesPersonName = input("Enter the sales person's name: ").title()
-    if SalesPersonName == '':
-        print("Sales person's name cannot be blank.")
+    while True:
+        SalesPersonName = input("Enter the sales person's name: ").title()
+        if blank_checker(SalesPersonName) == True:
+            break
 
 
     #Get current date
     InvoiceDate = datetime.date.today()
 
     #First payment date
-    FirstPaymentMonth = InvoiceDate.month + 1
+    FirstPaymentMonth = InvoiceDate.month
     
     FirstPaymentYear = InvoiceDate.year
    
-    if InvoiceDate.day > 25:
-        FirstPaymentMonth += 1
-    if FirstPaymentMonth > 12:
-        FirstPaymentMonth = 1
-        FirstPaymentYear += 1
+    FirstPaymentMonthDsp, FirstPaymentYear = increase_month(FirstPaymentMonth, FirstPaymentYear)
 
 
     #Generate customer name and receipt ID
@@ -112,15 +134,15 @@ while True:
 
     
     #Format values for display
-    SalePriceDsp = "${:,.2f}".format(SalePrice)
-    TradeInValueDsp = "${:,.2f}".format(TradeInValue)
-    PricePostTradeDsp = "${:,.2f}".format(PricePostTrade)
-    LicenseFeeDsp = "${:,.2f}".format(LicenseFee)
-    TransferFeeDsp = "${:,.2f}".format(TransferFee)
-    SubTotalDsp = "${:,.2f}".format(SubTotal)
-    HSTAmountDsp = "${:,.2f}".format(HSTAmount)
-    TotalAmountDsp = "${:,.2f}".format(TotalAmount)
-    
+
+    SalePriceDsp = (format_currency(SalePrice))
+    TradeInValueDsp = (format_currency(TradeInValue))
+    PricePostTradeDsp = (format_currency(PricePostTrade))
+    LicenseFeeDsp = (format_currency(LicenseFee))
+    TransferFeeDsp = (format_currency(TransferFee))
+    SubTotalDsp = (format_currency(SubTotal))
+    HSTAmountDsp = (format_currency(HSTAmount))
+    TotalAmountDsp = (format_currency(TotalAmount))
     
     InvoiceDateDsp = InvoiceDate.strftime("%m-%d-%Y")
 
@@ -148,22 +170,23 @@ while True:
     print(f"                               Financing     Total        Monthly")
     print(f"     # Years    # Payments        Fee        Price        Payment")
     print(f"     ---------------------------------------------------------------------      ")
+    
     #Payment Schedule Loop
     for years in range (1, 5):
         NumPayments = years * 12
 
         FinancingFeePerYear = FINANCINGFEE * years
-        FinancingFeePerYearDsp = "${:,.2f}".format(FinancingFeePerYear)
+        FinancingFeePerYearDsp = (format_currency(FinancingFeePerYear))
 
         TotalPrice = TotalAmount + FinancingFeePerYear
-        TotalPriceDsp = "${:,.2f}".format(TotalPrice)
+        TotalPriceDsp = (format_currency(TotalPrice))
 
         MonthlyPayment = TotalPrice / NumPayments
-        MonthlyPaymentDsp = "${:,.2f}".format(MonthlyPayment)
+        MonthlyPaymentDsp = (format_currency(MonthlyPayment))
 
         print(f"        {years:<4d}           {NumPayments:<2d}        {FinancingFeePerYearDsp:<5s}     {TotalPriceDsp:<8s}   {MonthlyPaymentDsp:<8s}")
     print(f"     ---------------------------------------------------------------------      ")
-    print(f"     First payment date: 01-{FirstPaymentMonth}-{FirstPaymentYear}")
+    print(f"     First payment date: 01-{FirstPaymentMonthDsp}-{FirstPaymentYear}")
     print(f"--------------------------------------------------------------------------------")
     print(f"                    Best used cars at the best prices!")
 
