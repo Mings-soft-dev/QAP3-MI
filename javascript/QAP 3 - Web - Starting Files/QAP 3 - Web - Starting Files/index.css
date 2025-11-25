@@ -1,0 +1,60 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: aquamarine;
+}
+
+.mainbox {
+  width: 1000px;
+  height: 600px; /*will be removed later */
+  background-color: white;
+  border: 3px solid gray;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.invoiceTable, td {
+  margin: auto;
+  border: 2px solid black;
+  padding: 2px;
+  border-collapse: collapse;
+}
+
+.invoiceTable th {
+  border: 2px solid black;
+  padding: 20px;
+  border-collapse: collapse;
+  background-color: yellow;
+}
+
+/*  General classes for the page */
+.boldtext {
+  font-weight: 700;
+}
+
+.centertext {
+  text-align: center;
+}
+
+.righttext {
+  text-align: right;
+}
+
+
+/* Styles for the header section */
+
+
+/* Styles for the nav section */
+
+
+/* Styles for the main / sections section */
+
+
+/* Styles for the footer section */
+
